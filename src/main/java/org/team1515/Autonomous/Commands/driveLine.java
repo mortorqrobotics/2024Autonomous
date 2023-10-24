@@ -9,16 +9,16 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class driveLine extends CommandBase {
     private final Drivetrain drivetrain;
-    private double rot;
+    private double theta;
     private double i; //i vector component
     private double j; //j vector component
     private double ti; //initial time parameter
     private double tf; //final time parameter
     private double realTime; //actial system time
     private double maxSpeed;
-    public driveLine(Drivetrain drivetrain, double rot, double i, double j, double ti, double tf) {
+    public driveLine(Drivetrain drivetrain, double theta, double i, double j, double ti, double tf) {
         this.drivetrain = drivetrain;
-        this.rot = rot;
+        this.theta = theta;
         this.i = i;
         this.j = j;
         this.ti = ti*1000;
@@ -30,7 +30,7 @@ public class driveLine extends CommandBase {
 
     @Override
     public void execute() {
-        drivetrain.drive(new Translation2d(maxSpeed*i,maxSpeed*j),rot/(tf/1000-ti/1000),true,false);
+        drivetrain.drive(new Translation2d(maxSpeed*i,maxSpeed*j),theta/(tf/1000-ti/1000),true,false);
     }
 
     @Override

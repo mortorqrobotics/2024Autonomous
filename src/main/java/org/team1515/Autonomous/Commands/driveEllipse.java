@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class driveEllipse extends CommandBase {
     private final Drivetrain drivetrain;
-    private double rot;
+    private double theta;
     private double a; //i component radius of the ellipse
     private double b; //j component radius of the ellipse
     private double ti; //initial time parameter
@@ -19,9 +19,9 @@ public class driveEllipse extends CommandBase {
     private double i; //i vector component of r'
     private double j; //i vector component of r'
     private double maxSpeed = (0.5/1.5) * SwerveConstants.Swerve.maxSpeed;
-    public driveEllipse(Drivetrain drivetrain, double rot, double a,double b, double ti, double tf, boolean isClockwise) {
+    public driveEllipse(Drivetrain drivetrain, double theta, double a,double b, double ti, double tf, boolean isClockwise) {
         this.drivetrain = drivetrain;
-        this.rot = rot;
+        this.theta = theta;
         this.a = a;
         this.b = b;
         this.ti = ti*1000;
@@ -41,7 +41,7 @@ public class driveEllipse extends CommandBase {
             i = a*Math.cos(ti/1000+(System.currentTimeMillis()-realTime)/1000);
             j = -b*Math.sin(ti/1000+(System.currentTimeMillis()-realTime)/1000);
         }
-        drivetrain.drive(new Translation2d(maxSpeed*i,maxSpeed*j), rot/(tf/1000-ti/1000), true,true);
+        drivetrain.drive(new Translation2d(maxSpeed*i,maxSpeed*j), theta/(tf/1000-ti/1000), true,true);
     }
 
     @Override

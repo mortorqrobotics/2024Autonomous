@@ -5,6 +5,7 @@
 package org.team1515.Autonomous;
 
 import org.team1515.Autonomous.Commands.DefaultDriveCommand;
+import org.team1515.Autonomous.utils.Gyroscope;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;

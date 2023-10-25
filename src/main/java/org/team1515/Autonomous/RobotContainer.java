@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import org.team1515.Autonomous.Commands.DefaultDriveCommand;
 import org.team1515.Autonomous.Commands.driveBezier;
 import org.team1515.Autonomous.utils.Gyroscope;
+import org.team1515.Autonomous.utils.Point;
 
-import edu.wpi.first.math.Pair;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -66,9 +66,9 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
 
-    ArrayList<Pair<Double,Double>> points = new ArrayList<Pair<Double,Double>>();
-    points.add(new Pair(1.0,1.0));
-    points.add(new Pair(0.0,2.0));
+    ArrayList<Point> points = new ArrayList<Point>();
+    points.add(new Point(1.0,1.0));
+    points.add(new Point(0.0,2.0));
 
     //return Commands.print("No autonomous command configured");
     return new driveBezier(drivetrain, points, 0, 3);

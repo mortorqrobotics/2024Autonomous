@@ -1,28 +1,25 @@
 package org.team1515.Autonomous.utils;
 
 import java.util.ArrayList;
-import java.util.function.DoubleFunction;
-
-import edu.wpi.first.math.Pair;
 
 public class bezierUtil {
 
-    public static ArrayList<Pair<Double, Double>> derivativeBezier(ArrayList<Pair<Double, Double>> arr){
-        ArrayList<Pair<Double, Double>> result = new ArrayList<Pair<Double, Double>>();
+    public static ArrayList<Point> derivativeBezier(ArrayList<Point> arr){
+        ArrayList<Point> result = new ArrayList<Point>();
         int n = arr.size();
         for (int i = 0; i < n-1; i++){
-            result.add(new Pair<Double, Double>(n * (arr.get(i).getFirst() - arr.get(i+1).getFirst()), n * (arr.get(i).getSecond() - arr.get(i+1).getSecond())));
+            result.add(new Point(n * (arr.get(i).x - arr.get(i+1).x), n * (arr.get(i).y - arr.get(i+1).y)));
         }
         return result;
     }
-    public static ArrayList<Pair<DoubleFunction<Double>, DoubleFunction<Double>>> bezierEquation(ArrayList<Pair<Double, Double>> arr){
-        ArrayList<Pair<DoubleFunction<Double>, DoubleFunction<Double>>> result = new ArrayList<Pair<DoubleFunction<Double>, DoubleFunction<Double>>>();
+    public static ArrayList<Equation> bezierEquation(ArrayList<Point> arr){
+        ArrayList<Equation> result = new ArrayList<Equation>();
         int n = arr.size();
         for (int i = 0; i < n; i++){
             final int integar=i;
-            double x = arr.get(i).getFirst();
-            double y = arr.get(i).getSecond();
-            result.add(new Pair<DoubleFunction<Double>, DoubleFunction<Double>>(
+            double x = arr.get(i).x;
+            double y = arr.get(i).y;
+            result.add(new Equation(
                 ((double t) -> binomialCo(n,integar)*Math.pow((integar-t), n-integar)*Math.pow(t,integar)*x), 
                 ((double t) -> binomialCo(n,integar)*Math.pow((integar-t), n-integar)*Math.pow(t,integar)*y)
             ));

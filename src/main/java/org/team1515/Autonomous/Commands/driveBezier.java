@@ -1,25 +1,26 @@
 package org.team1515.Autonomous.Commands;
 
 import java.util.ArrayList;
-import java.util.function.DoubleFunction;
 
 import org.team1515.Autonomous.Drivetrain;
 
-import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
+import org.team1515.Autonomous.utils.Point;
 import org.team1515.Autonomous.utils.bezierUtil;
+import org.team1515.Autonomous.utils.Equation;
 
 public class driveBezier extends CommandBase{
     
     private Drivetrain drivetrain;
-    private ArrayList<Pair<Double, Double>> curve;
-    private ArrayList<Pair<Double, Double>> derivativeCurve;
-    private ArrayList<Pair<DoubleFunction<Double>, DoubleFunction<Double>>> derivativeEquation;
+    private ArrayList<Point> curve;
+    private ArrayList<Point> derivativeCurve;
+    private ArrayList<Equation> derivativeEquation;
     private double theta;
     private double t;
     private double realTime;
-    public driveBezier(Drivetrain drivetrain, ArrayList<Pair<Double, Double>> arr,double theta, double t){
+    public driveBezier(Drivetrain drivetrain, ArrayList<Point> arr,double theta, double t){
         this.drivetrain = drivetrain;
         this.curve = arr;
         this.theta = theta;
@@ -35,9 +36,9 @@ public class driveBezier extends CommandBase{
         double currentTime = (System.currentTimeMillis()-realTime)/t;
         double i = 0.0;
         double j = 0.0;
-        for(Pair<DoubleFunction<Double>, DoubleFunction<Double>>p : derivativeEquation){
-            i+=p.getFirst().apply(currentTime);
-            j+=p.getSecond().apply(currentTime);
+        for(Equation p : derivativeEquation){
+            i+=p.applyX(currentTime);
+            j+=p.applyY(currentTime);
         }
         drivetrain.drive(new Translation2d(i,j), theta/(t/1000), true,true);
 

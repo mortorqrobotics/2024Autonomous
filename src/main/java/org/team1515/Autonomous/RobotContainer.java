@@ -67,8 +67,9 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
 
     ArrayList<Point> points = new ArrayList<Point>();
-    points.add(new Point(1.0,1.0));
-    points.add(new Point(0.0,2.0));
+    points.add(new Point(0.0,0.0));
+    points.add(new Point(0.5,0.5));
+    points.add(new Point(0.0,1.0));
 
     //return Commands.print("No autonomous command configured");
     return new driveBezier(drivetrain, points, 0, 3);

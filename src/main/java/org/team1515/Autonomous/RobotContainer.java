@@ -21,10 +21,10 @@ public class RobotContainer {
   private Drivetrain drivetrain;
 
   public RobotContainer() {
-    configureBindings();
-
     gyro = new Gyroscope();
     mainController = new XboxController(0);
+    
+    configureBindings();
   }
 
   private void configureBindings() {

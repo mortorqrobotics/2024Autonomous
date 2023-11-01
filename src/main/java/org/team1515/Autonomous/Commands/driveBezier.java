@@ -26,9 +26,10 @@ public class driveBezier extends CommandBase{
         this.theta = theta;
         this.t = t*1000.0;
         realTime = System.currentTimeMillis();
-        addRequirements(drivetrain);
         derivativeCurve = bezierUtil.derivativeBezier(curve);
         derivativeEquation = bezierUtil.bezierEquation(derivativeCurve);
+        
+        addRequirements(drivetrain);
     }
 
     @Override

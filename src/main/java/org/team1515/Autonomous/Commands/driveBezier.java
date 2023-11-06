@@ -41,7 +41,8 @@ public class driveBezier extends CommandBase{
             i+=p.applyX(currentTime);
             j+=p.applyY(currentTime);
         }
-        drivetrain.drive(new Translation2d(i,j), theta/(t/1000), true,true);
+        double mag = Math.sqrt(Math.pow(i,2)+Math.pow(j,2)); 
+        drivetrain.drive(new Translation2d(i/mag,j/mag), theta/(t/1000), true,true);
 
     }
 

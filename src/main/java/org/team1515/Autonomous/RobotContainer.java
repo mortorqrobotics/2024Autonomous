@@ -11,6 +11,9 @@ import org.team1515.Autonomous.Commands.driveBezier;
 import org.team1515.Autonomous.utils.Gyroscope;
 import org.team1515.Autonomous.utils.Point;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -18,11 +21,12 @@ import edu.wpi.first.wpilibj2.command.Commands;
 public class RobotContainer {
   public static Gyroscope gyro;
   public static XboxController mainController;
-  private Drivetrain drivetrain;
+  public Drivetrain drivetrain;
 
   public RobotContainer() {
     gyro = new Gyroscope();
     mainController = new XboxController(0);
+    drivetrain = new Drivetrain(new Pose2d());
     
     configureBindings();
   }
@@ -68,8 +72,9 @@ public class RobotContainer {
 
     ArrayList<Point> points = new ArrayList<Point>();
     points.add(new Point(0.0,0.0));
-    points.add(new Point(0.5,0.5));
-    points.add(new Point(0.0,1.0));
+    points.add(new Point(0,-0.5));
+    points.add(new Point(-0.5,0));
+    points.add(new Point(1.0,0));
 
     //return Commands.print("No autonomous command configured");
     return new driveBezier(drivetrain, points, 0, 3);

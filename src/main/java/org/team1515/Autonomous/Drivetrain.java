@@ -1,14 +1,18 @@
 package org.team1515.Autonomous;
 
-import com.team364.swervelib.util.SwerveConstants;
 import com.team364.swervelib.util.SwerveModule;
+import com.team364.swervelib.util.SwerveConstants;
+
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
+
+
+import org.team1515.Autonomous.RobotContainer;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -18,9 +22,10 @@ public class Drivetrain extends SubsystemBase {
     public SwerveModule[] mSwerveMods;
 
     private Rotation2d realZero;
+    private double gyroOffset = 0;
 
     public Drivetrain(Pose2d initialPos) {
-        realZero = initialPos.getRotation();
+        realZero = Rotation2d.fromDegrees(RobotContainer.gyro.getYaw());
 
         zeroGyro();
 
@@ -103,8 +108,17 @@ public class Drivetrain extends SubsystemBase {
      * @return Rotation2d yaw of the robot in radians
      */
     public Rotation2d getYaw() {
-        return (SwerveConstants.Swerve.invertGyro) ? Rotation2d.fromDegrees(360 - RobotContainer.gyro.getYaw())
+        return (SwerveConstants.Swerve.invertGyro) ? Rotation2d.fromDegrees(360 - RobotContainer.gyro.getYaw() + gyroOffset)
                 : Rotation2d.fromDegrees(RobotContainer.gyro.getYaw());
+    }
+
+    public void flipGyro() {
+        if(gyroOffset == 0) {
+            gyroOffset = 180;
+        }
+        else {
+            gyroOffset = 0;
+        }
     }
 
     public void resetModulesToAbsolute() {

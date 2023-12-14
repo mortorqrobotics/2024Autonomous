@@ -24,31 +24,30 @@ public class driveBezier extends CommandBase{
         this.drivetrain = drivetrain;
         this.curve = arr;
         this.theta = theta;
-        this.t = t*1000.0;
+        this.t = t;
         realTime = System.currentTimeMillis();
-        derivativeCurve = bezierUtil.derivativeBezier(curve);
-        derivativeEquation = bezierUtil.bezierEquation(derivativeCurve);
+        derivativeEquation = bezierUtil.derivativeEquation(curve);
         
         addRequirements(drivetrain);
     }
 
     @Override
     public void execute(){
-        double currentTime = (System.currentTimeMillis()-realTime)/t;
+        double currentTime = (System.currentTimeMillis()-realTime)/(t*1000);
         double i = 0.0;
         double j = 0.0;
         for(Equation p : derivativeEquation){
             i+=p.applyX(currentTime);
-            j+=p.applyY(currentTime);
+            j+=p.applyY(currentTime); 
         }
         double mag = Math.sqrt(Math.pow(i,2)+Math.pow(j,2)); 
-        drivetrain.drive(new Translation2d(i/mag,j/mag), theta/(t/1000), true,true);
+        drivetrain.drive(new Translation2d(i/mag,j/mag), theta/(t), true,true);
 
     }
 
     @Override
     public boolean isFinished(){
-        return System.currentTimeMillis()-realTime >= t;
+        return System.currentTimeMillis()-realTime >= (t*1000);
     }
 
     @Override

@@ -1,18 +1,15 @@
 package org.team1515.Autonomous;
 
-import com.team364.swervelib.util.SwerveModule;
 import com.team364.swervelib.util.SwerveConstants;
-
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveModulePosition;
-
-
-import org.team1515.Autonomous.RobotContainer;
+import com.team364.swervelib.util.SwerveModule;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -23,6 +20,10 @@ public class Drivetrain extends SubsystemBase {
 
     private Rotation2d realZero;
     private double gyroOffset = 0;
+
+    private SwerveDriveOdometry m_odometry;
+    private Pose2d m_pose;
+
 
     public Drivetrain(Pose2d initialPos) {
         realZero = Rotation2d.fromDegrees(RobotContainer.gyro.getYaw());
@@ -35,6 +36,17 @@ public class Drivetrain extends SubsystemBase {
                 new SwerveModule(2, SwerveConstants.Swerve.Mod2.constants),
                 new SwerveModule(3, SwerveConstants.Swerve.Mod3.constants)
         };
+
+        
+
+        m_odometry = new SwerveDriveOdometry(
+            SwerveConstants.Swerve.swerveKinematics, RobotContainer.gyro.getGyroscopeRotation(),
+            new SwerveModulePosition[] {
+            mSwerveMods[0].getPosition(),
+            mSwerveMods[1].getPosition(),
+            mSwerveMods[2].getPosition(),
+            mSwerveMods[3].getPosition()
+        }, new Pose2d(0, 0, new Rotation2d(0)));
 
         /*
          * By pausing init for a second before setting module offsets, we avoid a bug
@@ -134,6 +146,11 @@ public class Drivetrain extends SubsystemBase {
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Integrated", mod.getPosition().angle.getDegrees());
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);
         }
+        m_pose = m_odometry.update(RobotContainer.gyro.getGyroscopeRotation(),
+            new SwerveModulePosition[] {
+            mSwerveMods[0].getPosition(), mSwerveMods[1].getPosition(),
+            mSwerveMods[2].getPosition(), mSwerveMods[3].getPosition()}
+        );
     }
 
     /**
@@ -141,5 +158,8 @@ public class Drivetrain extends SubsystemBase {
      */
     public Rotation2d getRealZero() {
         return realZero;
+    }
+    public Pose2d getOdometry(){
+        return m_pose;
     }
 }

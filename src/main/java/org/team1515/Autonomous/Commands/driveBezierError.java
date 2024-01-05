@@ -19,7 +19,7 @@ public class driveBezierError extends CommandBase{
     private ArrayList<Equation> bezierEquation;
     private double theta;
     private double t;
-    private double realTime;
+    private double startTime;
     private Pose2d startPose;
     public driveBezierError(Drivetrain drivetrain, ArrayList<Point> arr,double theta, double t){
         this.drivetrain = drivetrain;
@@ -27,7 +27,7 @@ public class driveBezierError extends CommandBase{
         this.theta = theta;
         this.t = t;
         this.startPose=drivetrain.getOdometry();
-        realTime = System.currentTimeMillis();
+        startTime = System.currentTimeMillis();
         derivativeEquation = bezierUtil.derivativeEquation(curve);
         bezierEquation = bezierUtil.bezierEquation(curve);
         
@@ -36,7 +36,7 @@ public class driveBezierError extends CommandBase{
 
     @Override
     public void execute(){
-        double currentTime = (System.currentTimeMillis()-realTime)/(t*1000);
+        double currentTime = (System.currentTimeMillis()-startTime)/(t*1000);
         double deri = 0.0;
         double derj = 0.0;
         for(Equation p : derivativeEquation){
@@ -62,7 +62,7 @@ public class driveBezierError extends CommandBase{
 
     @Override
     public boolean isFinished(){
-        return System.currentTimeMillis()-realTime >= (t*1000);
+        return System.currentTimeMillis()-startTime >= (t*1000);
     }
 
     @Override

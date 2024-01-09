@@ -100,7 +100,7 @@ public class bezierUtil {
     public static CartesianPoint[] spacedPoints(ArrayList<Equation> bezierEquation){
         //return value
         //number of points on our bezier apporximation
-        int n = 100;
+        int n = 10;
         //set of points on our bezier
         CartesianPoint[] points = placePoints(bezierEquation, n-2);
         //use helper functions to calculate average leg length

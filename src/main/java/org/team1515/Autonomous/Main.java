@@ -16,13 +16,13 @@ public final class Main {
   private Main() {}
 
   public static void main(String... args) {
-    RobotBase.startRobot(Robot::new);
-  //   ArrayList<Point> points = new ArrayList<Point>();
-  //   points.add(new Point(0.0,0.0));
-  //   points.add(new Point(0.5,1));
-  //   points.add(new Point(1.0, 0.0));
-  //   points.add(new Point(1.5,-1));
-  //   points.add(new Point(2.0,0.0));
+    // RobotBase.startRobot(Robot::new);
+    ArrayList<Point> points = new ArrayList<Point>();
+    points.add(new Point(0.0,0.0));
+    points.add(new Point(0.5,1));
+    points.add(new Point(1.0, 0.0));
+    points.add(new Point(1.5,-1));
+    points.add(new Point(2.0,0.0));
     
   //   ArrayList<Equation> eq = bezierUtil.bezierEquation(points);
   //   for(double num = 0.0; num<1.0; num+=0.1){

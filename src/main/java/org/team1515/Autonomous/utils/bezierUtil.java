@@ -97,9 +97,8 @@ public class bezierUtil {
         return new CartesianPoint(i, j);
     }
 
-    public static ArrayList<CartesianPoint> spacedPoints(ArrayList<Equation> bezierEquation){
+    public static CartesianPoint[] spacedPoints(ArrayList<Equation> bezierEquation){
         //return value
-        ArrayList<CartesianPoint> spacedPoints = new ArrayList<CartesianPoint>();
         //number of points on our bezier apporximation
         int n = 100;
         //set of points on our bezier
@@ -134,6 +133,6 @@ public class bezierUtil {
                 points[j] = applyBezierEquation(bezierEquation, tValues[j]);
             }
         }
-        return spacedPoints;
+        return points;
     }
 }   

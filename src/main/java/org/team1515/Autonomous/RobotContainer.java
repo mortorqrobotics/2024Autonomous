@@ -7,9 +7,11 @@ package org.team1515.Autonomous;
 import java.util.ArrayList;
 
 import org.team1515.Autonomous.Commands.DefaultDriveCommand;
+import org.team1515.Autonomous.Commands.driveArcLength;
 import org.team1515.Autonomous.Commands.driveBezier;
 import org.team1515.Autonomous.Commands.driveBezierError;
 import org.team1515.Autonomous.Commands.driveCircle;
+import org.team1515.Autonomous.utils.CartesianPoint;
 import org.team1515.Autonomous.utils.Gyroscope;
 import org.team1515.Autonomous.utils.Point;
 import org.team1515.Autonomous.utils.bezierUtil;
@@ -80,8 +82,10 @@ public class RobotContainer {
     points.add(new Point(1.5, -.5));
     points.add(new Point(2, 0));
 
+    CartesianPoint[] spacedPoints = bezierUtil.spacedPoints(bezierUtil.bezierEquation(points));
+
     //return Commands.print("No autonomous command configured");
-    return new driveBezierError(drivetrain, points, 0, 10);  
+    return new driveArcLength(drivetrain, spacedPoints, 5, Math.PI/(double)2);  
     // return new driveCircle(drivetrain, 0, 0.5, 0, 2*Math.PI, false);
   }
 }

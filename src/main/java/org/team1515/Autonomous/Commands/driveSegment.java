@@ -18,6 +18,7 @@ public class driveSegment extends CommandBase {
     private double startTime; //actial system time
     private double i;
     private double j;
+    
     public driveSegment(Drivetrain drivetrain, double theta, double speed, CartesianPoint start, CartesianPoint end, double t) {
         this.drivetrain = drivetrain;
         this.theta = theta;

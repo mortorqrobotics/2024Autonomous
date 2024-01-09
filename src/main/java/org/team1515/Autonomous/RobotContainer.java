@@ -10,6 +10,7 @@ import org.team1515.Autonomous.Commands.DefaultDriveCommand;
 import org.team1515.Autonomous.Commands.driveBezier;
 import org.team1515.Autonomous.Commands.driveBezierError;
 import org.team1515.Autonomous.Commands.driveCircle;
+import org.team1515.Autonomous.Commands.driveLine;
 import org.team1515.Autonomous.utils.Gyroscope;
 import org.team1515.Autonomous.utils.Point;
 import org.team1515.Autonomous.utils.bezierUtil;
@@ -77,11 +78,10 @@ public class RobotContainer {
     points.add(new Point(0.0,0.0));
     points.add(new Point(0.5,.5));
     points.add(new Point(1.0, 0.0));
-    points.add(new Point(1.5, -.5));
-    points.add(new Point(2, 0));
 
     //return Commands.print("No autonomous command configured");
-    return new driveBezierError(drivetrain, points, 0, 10);  
-    // return new driveCircle(drivetrain, 0, 0.5, 0, 2*Math.PI, false);
-  }
-}
+    // return new driveBezier(drivetrain, points, Math.PI, 5); 
+    // return new driveLine( drivetrain,  2*Math.PI,0.5,0.0, 0.0, 4.0);
+    return new driveCircle(drivetrain, Math.PI/2, 0.5, 0, 2*Math.PI, false);
+  
+}}

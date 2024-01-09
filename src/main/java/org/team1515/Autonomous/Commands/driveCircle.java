@@ -49,6 +49,7 @@ public class driveCircle extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        drivetrain.drive(new Translation2d(0.0, 0.0), 0.0, false, false);
+        drivetrain.drive(new Translation2d(0.0, 0.0), 
+        0.0, false, true);
     }
 }

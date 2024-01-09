@@ -52,9 +52,9 @@ public class driveBezierError extends CommandBase{
         Pose2d curPose = drivetrain.getOdometry();
         double xError= (startPose.getX()+posi)-curPose.getX();
         double yError= (startPose.getY()+posj)-curPose.getY();
-        double mag = Math.sqrt(Math.pow(deri,2)+Math.pow(derj,2));
-        double i=(deri/mag)+xError;
-        double j=(derj/mag)+yError;
+        double derMag = Math.sqrt(Math.pow(deri,2)+Math.pow(derj,2));
+        double i=(deri/derMag)+xError;
+        double j=(derj/derMag)+yError;
         drivetrain.drive(new Translation2d(i,j), theta/(t), true,true);
 
 

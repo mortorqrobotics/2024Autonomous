@@ -134,31 +134,6 @@ public class bezierUtil {
                 points[j] = applyBezierEquation(bezierEquation, tValues[j]);
             }
         }
-
-
-//         for (let r=0; r<4; r++) {
-//     let d = [];
-//     for (let j=0; j<m[i]-1; j++) {
-//       d[j] = mag(
-//         (s[i][j+1].x-s[i][j].x),
-//         (s[i][j+1].y-s[i][j].y)
-//       );
-//     }
-//     const d_err = d.map((segment) => {
-//       return (segment - d_avg);
-//     });
-//     let offset = 0;
-//     const cutoff = (i === bezier.length - 1) ? 0 : 1;
-//     for (let j=1; j<m[i]-cutoff; j++) {
-//       offset += d_err[j-1];
-//       t[j] -= step_size * offset;
-//       s[i][j] = Y[i](t[j]);
-//     }
-//   }
-
-
-
         return spacedPoints;
     }
-
 }   

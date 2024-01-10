@@ -7,6 +7,7 @@ package org.team1515.Autonomous;
 import java.util.ArrayList;
 
 import org.team1515.Autonomous.Commands.DefaultDriveCommand;
+import org.team1515.Autonomous.Commands.RotateAngle;
 import org.team1515.Autonomous.Commands.driveBezier;
 import org.team1515.Autonomous.Commands.driveBezierError;
 import org.team1515.Autonomous.Commands.driveCircle;
@@ -16,6 +17,7 @@ import org.team1515.Autonomous.utils.Point;
 import org.team1515.Autonomous.utils.bezierUtil;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -43,6 +45,7 @@ public class RobotContainer {
             () -> -modifyAxis(-mainController.getLeftX() * getRobotSpeed()),
             () -> -modifyAxis(mainController.getRightX() * getRobotSpeed()),
             () -> Controls.DRIVE_ROBOT_ORIENTED.getAsBoolean()));
+        Controls.TURN.onTrue(new RotateAngle(drivetrain, Units.degreesToRadians(90)));
 
   }
 

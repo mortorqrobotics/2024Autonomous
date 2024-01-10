@@ -40,7 +40,7 @@ public class RotateAngle extends CommandBase {
         // TODO retune PID
         angleController.setTolerance(Units.degreesToRadians(3.5));
         angleController.enableContinuousInput(-Math.PI, Math.PI);
-        angleController.setSetpoint(angle);
+        angleController.setSetpoint(this.angle);
 
         addRequirements(drivetrainSubsystem);
     }

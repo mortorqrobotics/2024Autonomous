@@ -60,15 +60,18 @@ public class bezierUtil {
 
     public static CartesianPoint[] placePoints(ArrayList<Equation> bezierEquation, int points){
         CartesianPoint[] placedPoints = new CartesianPoint[points];
-        //loops from 0 to 1 incrementing by 1 over the number of sections(points-1)
+        //loops from 0 to number of points-1 incrementing by 1 over the number of sections(points-1)
         //for each section, calculates the point at said section and adds it to the new arraylist
-        for(int i = 0; i <= 1; i+=(1.0/(points-1))){
+        double t = 0;
+        for(int i = 0; i<points; i++){
+            //increments t 
+            t+=(double)i/(points-1);
             double x=0.0;
             double y=0.0;
             //calculates the values of x and y
             for(Equation e: bezierEquation){
-                x+=e.applyX(i);
-                y+=e.applyY(i);
+                x+=e.applyX(t);
+                y+=e.applyY(t);
             }
             placedPoints[i] = new CartesianPoint(x, y);
         }
@@ -102,7 +105,7 @@ public class bezierUtil {
         //number of points on our bezier apporximation
         int n = 10;
         //set of points on our bezier
-        CartesianPoint[] points = placePoints(bezierEquation, n-2);
+        CartesianPoint[] points = placePoints(bezierEquation, n);
         //use helper functions to calculate average leg length
         double avgLegLength = bezierLength(points)/(n-1);
         //set how much we nudge each point every round to(honetsly idk)

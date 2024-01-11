@@ -12,11 +12,11 @@ import org.team1515.Autonomous.utils.Point;
 import org.team1515.Autonomous.utils.CartesianPoint;
 import org.team1515.Autonomous.utils.Equation;
 import org.team1515.Autonomous.utils.bezierUtil;
+class Main{
+// public final class Main {
+//   private Main() {}
 
-public final class Main {
-  private Main() {}
-
-  public static void main(String... args) {
+  public static void main(String[] args) {
     // RobotBase.startRobot(Robot::new);
     ArrayList<Point> points = new ArrayList<Point>();
     points.add(new Point(0.0,0.0));

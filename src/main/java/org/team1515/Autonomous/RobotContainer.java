@@ -5,6 +5,7 @@
 package org.team1515.Autonomous;
 
 import java.util.ArrayList;
+import java.util.function.DoubleSupplier;
 
 import org.team1515.Autonomous.Commands.DefaultDriveCommand;
 import org.team1515.Autonomous.Commands.RotateAngle;
@@ -45,7 +46,8 @@ public class RobotContainer {
             () -> -modifyAxis(-mainController.getLeftX() * getRobotSpeed()),
             () -> -modifyAxis(mainController.getRightX() * getRobotSpeed()),
             () -> Controls.DRIVE_ROBOT_ORIENTED.getAsBoolean()));
-        Controls.TURN.onTrue(new RotateAngle(drivetrain, Units.degreesToRadians(90)));
+    DoubleSupplier ds = ()->Units.degreesToRadians(180);
+    Controls.TURN.onTrue(new RotateAngle(drivetrain, ds));
 
   }
 
@@ -81,10 +83,10 @@ public class RobotContainer {
     points.add(new Point(0.0,0.0));
     points.add(new Point(0.5,.5));
     points.add(new Point(1.0, 0.0));
-
+    DoubleSupplier ds = ()->Units.degreesToRadians(90);
     //return Commands.print("No autonomous command configured");
-    // return new driveBezier(drivetrain, points, Math.PI, 5); 
+    return new driveBezier(drivetrain, points, ds, 5); 
     // return new driveLine( drivetrain,  2*Math.PI,0.5,0.0, 0.0, 4.0);
-    return new driveCircle(drivetrain, Math.PI/2, 0.5, 0, 2*Math.PI, false);
+    //return new driveCircle(drivetrain, Math.PI/2, 0.5, 0, 2*Math.PI, false);
   
 }}

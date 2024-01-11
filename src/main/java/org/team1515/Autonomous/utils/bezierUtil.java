@@ -58,8 +58,8 @@ public class bezierUtil {
             return n * factorial(n - 1);
     }
 
-    public static CartesianPoint[] placePoints(ArrayList<Equation> bezierEquation, int points){
-        CartesianPoint[] placedPoints = new CartesianPoint[points];
+    public static Point[] placePoints(ArrayList<Equation> bezierEquation, int points){
+        Point[] placedPoints = new Point[points];
         //loops from 0 to number of points-1 incrementing by 1 over the number of sections(points-1)
         //for each section, calculates the point at said section and adds it to the new arraylist
         double t = 0;
@@ -73,16 +73,16 @@ public class bezierUtil {
                 x+=e.applyX(t);
                 y+=e.applyY(t);
             }
-            placedPoints[i] = new CartesianPoint(x, y);
+            placedPoints[i] = new Point(x, y);
         }
         return placedPoints;
     }
 
-    public static double getLength(CartesianPoint start, CartesianPoint end){
-        return Math.sqrt(Math.pow((end.getX()-start.getX()), 2)+Math.pow((end.getY()-start.getY()), 2));
+    public static double getLength(Point start, Point end){
+        return Math.sqrt(Math.pow((end.x-start.x), 2)+Math.pow((end.y-start.y), 2));
     }
 
-    public static double bezierLength(CartesianPoint[] points){
+    public static double bezierLength(Point[] points){
         double total = 0.0;
         for(int i=0; i<points.length-1;i++){
             total+=getLength(points[i], points[i+1]);
@@ -90,22 +90,22 @@ public class bezierUtil {
         return total;
     }
 
-    public static CartesianPoint applyBezierEquation(ArrayList<Equation> bezierEquation, double t){
+    public static Point applyBezierEquation(ArrayList<Equation> bezierEquation, double t){
         double i = 0.0;
         double j = 0.0;
         for(Equation p : bezierEquation){
             i+=p.applyX(t);
             j+=p.applyY(t); 
         }
-        return new CartesianPoint(i, j);
+        return new Point(i, j);
     }
 
-    public static CartesianPoint[] spacedPoints(ArrayList<Equation> bezierEquation){
+    public static Point[] spacedPoints(ArrayList<Equation> bezierEquation){
         //return value
         //number of points on our bezier apporximation
-        int n = 10;
+        int n = 1000;
         //set of points on our bezier
-        CartesianPoint[] points = placePoints(bezierEquation, n);
+        Point[] points = placePoints(bezierEquation, n);
         //use helper functions to calculate average leg length
         double avgLegLength = bezierLength(points)/(n-1);
         //set how much we nudge each point every round to(honetsly idk)

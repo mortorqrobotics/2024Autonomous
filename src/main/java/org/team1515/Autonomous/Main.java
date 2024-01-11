@@ -20,16 +20,18 @@ class Main{
     // RobotBase.startRobot(Robot::new);
     ArrayList<Point> points = new ArrayList<Point>();
     points.add(new Point(0.0,0.0));
-    points.add(new Point(0.5,1));
-    points.add(new Point(1.0, 0.0));
-    points.add(new Point(0,0.5));
+    points.add(new Point(1.0,1.0));
+    points.add(new Point(2.0, 0.0));
+    points.add(new Point(3.0,-1.0));
+    points.add(new Point(4.0, 0.0));
 
     ArrayList<Equation> bezierEquation = bezierUtil.bezierEquation(points);
 
-    CartesianPoint[] spacedPoints = bezierUtil.spacedPoints(bezierEquation);
+    Point[] spacedPoints = bezierUtil.spacedPoints(bezierEquation);
+    
 
-    for(int i = 0; i<spacedPoints.length;i++){
-      System.out.println("X: "+spacedPoints[i].getX()+ " Y: " + spacedPoints[i].getY());
+    for(int i = 0; i<spacedPoints.length-1;i++){
+      System.out.println("X: "+spacedPoints[i].x+ " Y: " + spacedPoints[i].y);
     }
 
     

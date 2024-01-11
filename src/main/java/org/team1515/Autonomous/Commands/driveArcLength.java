@@ -23,13 +23,13 @@ public class driveArcLength extends SequentialCommandGroup {
    *
 
    */
-  public driveArcLength(Drivetrain drivetrain, CartesianPoint[] points, double t, double theta) {
+  public driveArcLength(Drivetrain drivetrain, Point[] points, double t, double theta) {
     double length = bezierUtil.bezierLength(points);
     double segmentLength = length/points.length;
     double speed = length/t;
     double segmentT = segmentLength/speed;
 
-    for(int i = 0; i<points.length-1;i++){
+    for(int i = 0; i<points.length-2;i++){
         addCommands(new driveSegment(drivetrain, theta, speed, points[i], points[i+1], segmentT));
     }
   }

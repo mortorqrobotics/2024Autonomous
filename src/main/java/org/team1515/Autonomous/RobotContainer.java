@@ -82,10 +82,10 @@ public class RobotContainer {
     points.add(new Point(1.5, -.5));
     points.add(new Point(2, 0));
 
-    CartesianPoint[] spacedPoints = bezierUtil.spacedPoints(bezierUtil.bezierEquation(points));
+    Point[] spacedPoints = bezierUtil.spacedPoints(bezierUtil.bezierEquation(points));
 
     //return Commands.print("No autonomous command configured");
-    return new driveArcLength(drivetrain, spacedPoints, 5, Math.PI/(double)2);  
+    return new driveArcLength(drivetrain, spacedPoints, 5, 0.0);  
     // return new driveCircle(drivetrain, 0, 0.5, 0, 2*Math.PI, false);
   }
 }

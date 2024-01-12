@@ -1,7 +1,6 @@
 package org.team1515.Autonomous.Commands;
 
 import org.team1515.Autonomous.Drivetrain;
-import org.team1515.Autonomous.utils.CartesianPoint;
 import org.team1515.Autonomous.utils.Point;
 
 import com.team364.swervelib.util.SwerveConstants;
@@ -37,17 +36,26 @@ public class driveSegment extends CommandBase {
     }
 
     @Override
+    public void initialize(){
+        startTime = System.currentTimeMillis();
+    }
+
+    @Override
     public void execute() {
         drivetrain.drive(new Translation2d(speed*i,speed*j),theta/(t/1000),true,false);
+        //System.out.println("i: " + i + " j: " + j + " speed: " + speed + " length: " + speed*t);
     }
 
     @Override
     public boolean isFinished() {
+        //System.out.println("t: " + t);
         return System.currentTimeMillis()-startTime >= t;
     }
 
     @Override
     public void end(boolean interrupted) {
-        drivetrain.drive(new Translation2d(0.0, 0.0), 0.0, false, false);
+        System.out.print("t: " + (System.currentTimeMillis()-startTime));
+        System.out.println(" Speed: " + speed);
+        //drivetrain.drive(new Translation2d(0.0, 0.0), 0.0, false, false);
     }
 }

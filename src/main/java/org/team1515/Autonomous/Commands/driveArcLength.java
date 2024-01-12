@@ -6,11 +6,11 @@ import org.team1515.Autonomous.Drivetrain;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import org.team1515.Autonomous.utils.Point;
 import org.team1515.Autonomous.utils.bezierUtil;
-import org.team1515.Autonomous.utils.CartesianPoint;
 import org.team1515.Autonomous.utils.Equation;
 import org.team1515.Autonomous.Commands.driveSegment;
 
@@ -31,6 +31,8 @@ public class driveArcLength extends SequentialCommandGroup {
 
     for(int i = 0; i<points.length-2;i++){
         addCommands(new driveSegment(drivetrain, theta, speed, points[i], points[i+1], segmentT));
+        //System.out.println(segmentT);
+        //addCommands(Commands.waitSeconds(0.01));
     }
   }
 

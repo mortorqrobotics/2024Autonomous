@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.RobotBase;
 import java.util.ArrayList;
 
 import org.team1515.Autonomous.utils.Point;
-import org.team1515.Autonomous.utils.CartesianPoint;
 import org.team1515.Autonomous.utils.Equation;
 import org.team1515.Autonomous.utils.bezierUtil;
 class Main{
@@ -17,7 +16,7 @@ class Main{
 //   private Main() {}
 
   public static void main(String[] args) {
-    // RobotBase.startRobot(Robot::new);
+    RobotBase.startRobot(Robot::new);
     ArrayList<Point> points = new ArrayList<Point>();
     points.add(new Point(0.0,0.0));
     points.add(new Point(1.0,1.0));
@@ -28,11 +27,17 @@ class Main{
     ArrayList<Equation> bezierEquation = bezierUtil.bezierEquation(points);
 
     Point[] spacedPoints = bezierUtil.spacedPoints(bezierEquation);
+    Point[] correct = new Point[spacedPoints.length-1];
+    for (int i = 0; i < correct.length; i++) {
+      correct[i] = spacedPoints[i];
+    }
     
 
-    for(int i = 0; i<spacedPoints.length-1;i++){
-      System.out.println("X: "+spacedPoints[i].x+ " Y: " + spacedPoints[i].y);
-    }
+    // for(int i = 0; i<correct.length-2;i++){
+    //   System.out.println("X: "+correct[i].x+ " Y: " + correct[i].y);
+    // }
+
+    // System.out.println("len: " + bezierUtil.bezierLength(correct));
 
     
   //   ArrayList<Equation> eq = bezierUtil.bezierEquation(points);

@@ -79,6 +79,7 @@ public class bezierUtil {
     }
 
     public static double getLength(Point start, Point end){
+        //System.out.println("smalllen:" + Math.sqrt(Math.pow((end.x-start.x), 2)+Math.pow((end.y-start.y), 2)));
         return Math.sqrt(Math.pow((end.x-start.x), 2)+Math.pow((end.y-start.y), 2));
     }
 
@@ -103,7 +104,7 @@ public class bezierUtil {
     public static Point[] spacedPoints(ArrayList<Equation> bezierEquation){
         //return value
         //number of points on our bezier apporximation
-        int n = 1000;
+        int n = 100;
         //set of points on our bezier
         Point[] points = placePoints(bezierEquation, n);
         //use helper functions to calculate average leg length

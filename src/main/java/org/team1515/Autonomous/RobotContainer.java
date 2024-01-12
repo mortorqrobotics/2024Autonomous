@@ -11,7 +11,6 @@ import org.team1515.Autonomous.Commands.driveArcLength;
 import org.team1515.Autonomous.Commands.driveBezier;
 import org.team1515.Autonomous.Commands.driveBezierError;
 import org.team1515.Autonomous.Commands.driveCircle;
-import org.team1515.Autonomous.utils.CartesianPoint;
 import org.team1515.Autonomous.utils.Gyroscope;
 import org.team1515.Autonomous.utils.Point;
 import org.team1515.Autonomous.utils.bezierUtil;
@@ -44,6 +43,7 @@ public class RobotContainer {
             () -> -modifyAxis(-mainController.getLeftX() * getRobotSpeed()),
             () -> -modifyAxis(mainController.getRightX() * getRobotSpeed()),
             () -> Controls.DRIVE_ROBOT_ORIENTED.getAsBoolean()));
+    
 
   }
 
@@ -77,15 +77,19 @@ public class RobotContainer {
 
     ArrayList<Point> points = new ArrayList<Point>();
     points.add(new Point(0.0,0.0));
-    points.add(new Point(0.5,.5));
-    points.add(new Point(1.0, 0.0));
-    points.add(new Point(1.5, -.5));
-    points.add(new Point(2, 0));
+    points.add(new Point(1.0,1.0));
+    points.add(new Point(2.0, 0.0));
+    points.add(new Point(3.0,-1.0));
+    points.add(new Point(4.0, 0.0));
 
     Point[] spacedPoints = bezierUtil.spacedPoints(bezierUtil.bezierEquation(points));
+    Point[] correct = new Point[spacedPoints.length-1];
+    for (int i = 0; i < correct.length; i++) {
+      correct[i] = spacedPoints[i];
+    }
 
     //return Commands.print("No autonomous command configured");
-    return new driveArcLength(drivetrain, spacedPoints, 5, 0.0);  
+    return new driveArcLength(drivetrain, correct, 10, 0.0);  
     // return new driveCircle(drivetrain, 0, 0.5, 0, 2*Math.PI, false);
   }
 }

@@ -1,17 +1,22 @@
 package org.team1515.Autonomous.Commands;
 
+import java.util.function.DoubleSupplier;
+
 import org.team1515.Autonomous.Drivetrain;
+import org.team1515.Autonomous.RobotContainer;
 import org.team1515.Autonomous.utils.Point;
 
 import com.team364.swervelib.util.SwerveConstants;
 
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class driveSegment extends CommandBase {
     private final Drivetrain drivetrain;
-    private double theta;
     private Point start;
     private Point end;
     private double t; //initial time parameter
@@ -22,10 +27,15 @@ public class driveSegment extends CommandBase {
     private Pose2d originalPose;
     double iError;
     double jError;
+
+    private PIDController angleController;
+    private double maxRotate;
+    private DoubleSupplier startAngle;
+    private DoubleSupplier angle;
+    private double ff = 0.0; // retune
     
-    public driveSegment(Drivetrain drivetrain, double theta, double speed, Point start, Point end, double t) {
+    public driveSegment(Drivetrain drivetrain, DoubleSupplier theta, double speed, Point start, Point end, double t) {
         this.drivetrain = drivetrain;
-        this.theta = theta;
         this.start = start;
         this.end = end;
         double dx = end.x-start.x;//change in x from start to end
@@ -36,15 +46,26 @@ public class driveSegment extends CommandBase {
         this.t = t*1000;
         startTime = System.currentTimeMillis();
         this.speed = speed;
-        addRequirements(drivetrain);
         this.iError = 0.0;
         this.jError = 0.0;
 
+        this.angle = theta;
+        this.maxRotate = 0.5 * SwerveConstants.Swerve.maxAngularVelocity;
+        this.startAngle = () -> RobotContainer.gyro.getGyroscopeRotation().getRadians();
+        angleController = new PIDController(2, 1, 0);
+        // TODO retune PID
+        angleController.setTolerance(Units.degreesToRadians(3));
+        angleController.enableContinuousInput(-Math.PI, Math.PI);
 
+        addRequirements(drivetrain);
     }
+
+    private double getAngle() {
+        return startAngle.getAsDouble() + angle.getAsDouble();
+    }
+
     public driveSegment(Drivetrain drivetrain, double theta, double speed, Point start, Point end, double t, Pose2d pose) {
         this.drivetrain = drivetrain;
-        this.theta = theta;
         this.start = start;
         this.end = end;
         double dx = end.x-start.x;//change in x from start to end
@@ -55,7 +76,6 @@ public class driveSegment extends CommandBase {
         this.t = t*1000;
         startTime = System.currentTimeMillis();
         this.speed = speed;
-        addRequirements(drivetrain);
         this.originalPose = pose;
         Pose2d currentPose = drivetrain.getOdometry();
         double originalX = originalPose.getX();
@@ -67,16 +87,32 @@ public class driveSegment extends CommandBase {
         //adds vector to correct error (error/time driving)/speed
         this.i+=(iError/t)/speed;
         this.j+=(jError/t)/speed;
+
+        this.angle = angle;
+        this.maxRotate = 0.5 * SwerveConstants.Swerve.maxAngularVelocity;
+        this.startAngle = () -> RobotContainer.gyro.getGyroscopeRotation().getRadians();
+        angleController = new PIDController(2, 1, 0);
+        // TODO retune PID
+        angleController.setTolerance(Units.degreesToRadians(3));
+        angleController.enableContinuousInput(-Math.PI, Math.PI);
+
+        addRequirements(drivetrain);
     }
 
     @Override
     public void initialize(){
         startTime = System.currentTimeMillis();
+        angleController.setSetpoint(MathUtil.angleModulus(getAngle()));
+        System.out.println("Start: " + MathUtil.angleModulus(getAngle()));
     }
 
     @Override
     public void execute() {
-        drivetrain.drive(new Translation2d(speed*i,speed*j),theta/(t/1000),true,false);
+        double currentAngle = RobotContainer.gyro.getGyroscopeRotation().getRadians();
+        double error = -MathUtil.angleModulus(currentAngle - angleController.getSetpoint());
+        double rotation = (MathUtil.clamp(angleController.calculate(error + angleController.getSetpoint(), angleController.getSetpoint()) + (ff * Math.signum(-error)),
+                -maxRotate, maxRotate)); // change setpoint?
+        drivetrain.drive(new Translation2d(speed*i,speed*j), rotation,true,false);
         //System.out.println("i: " + i + " j: " + j + " speed: " + speed + " length: " + speed*t);
     }
 

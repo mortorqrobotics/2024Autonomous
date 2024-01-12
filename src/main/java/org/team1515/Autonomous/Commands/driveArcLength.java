@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.team1515.Autonomous.Drivetrain;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -28,9 +29,10 @@ public class driveArcLength extends SequentialCommandGroup {
     double segmentLength = length/points.length;
     double speed = length/t;
     double segmentT = segmentLength/speed;
+    Pose2d startPose = drivetrain.getOdometry();
 
     for(int i = 0; i<points.length-2;i++){
-        addCommands(new driveSegment(drivetrain, theta, speed, points[i], points[i+1], segmentT));
+        addCommands(new driveSegment(drivetrain, theta, speed, points[i], points[i+1], segmentT, startPose));
         //System.out.println(segmentT);
         //addCommands(Commands.waitSeconds(0.01));
     }

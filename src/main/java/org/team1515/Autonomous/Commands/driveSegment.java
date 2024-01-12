@@ -5,6 +5,7 @@ import org.team1515.Autonomous.utils.Point;
 
 import com.team364.swervelib.util.SwerveConstants;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -18,6 +19,9 @@ public class driveSegment extends CommandBase {
     private double startTime; //actial system time
     private double i;
     private double j;
+    private Pose2d originalPose;
+    double iError;
+    double jError;
     
     public driveSegment(Drivetrain drivetrain, double theta, double speed, Point start, Point end, double t) {
         this.drivetrain = drivetrain;
@@ -33,6 +37,36 @@ public class driveSegment extends CommandBase {
         startTime = System.currentTimeMillis();
         this.speed = speed;
         addRequirements(drivetrain);
+        this.iError = 0.0;
+        this.jError = 0.0;
+
+
+    }
+    public driveSegment(Drivetrain drivetrain, double theta, double speed, Point start, Point end, double t, Pose2d pose) {
+        this.drivetrain = drivetrain;
+        this.theta = theta;
+        this.start = start;
+        this.end = end;
+        double dx = end.x-start.x;//change in x from start to end
+        double dy = end.y-start.y;//change in y from start to end
+        double mag = Math.sqrt(Math.pow(dx, 2)+Math.pow(dy, 2));//magnitude of the change vector
+        this.i = dx/mag; //unit vector i component
+        this.j = dy/mag; //unit vector j component
+        this.t = t*1000;
+        startTime = System.currentTimeMillis();
+        this.speed = speed;
+        addRequirements(drivetrain);
+        this.originalPose = pose;
+        Pose2d currentPose = drivetrain.getOdometry();
+        double originalX = originalPose.getX();
+        double originalY = originalPose.getY();
+        double projectedX = originalX+start.x;
+        double projectedY = originalY+start.y;
+        this.iError = projectedX-currentPose.getX();
+        this.jError = projectedY-currentPose.getY();
+        //adds vector to correct error (error/time driving)/speed
+        this.i+=(iError/t)/speed;
+        this.j+=(jError/t)/speed;
     }
 
     @Override

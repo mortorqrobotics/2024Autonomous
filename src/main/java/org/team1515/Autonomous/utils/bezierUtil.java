@@ -101,7 +101,8 @@ public class bezierUtil {
         return new Point(i, j);
     }
 
-    public static Point[] spacedPoints(ArrayList<Equation> bezierEquation){
+    public static Point[] spacedPoints(ArrayList<Point> bezierPoints){
+        ArrayList<Equation> bezierEquation = bezierEquation(bezierPoints);
         //return value
         //number of points on our bezier apporximation
         int n = 100;
@@ -137,6 +138,7 @@ public class bezierUtil {
                 points[j] = applyBezierEquation(bezierEquation, tValues[j]);
             }
         }
+        points[points.length-1] = bezierPoints.get(bezierPoints.size()-1);
         return points;
     }
 }   
